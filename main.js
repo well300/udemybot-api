@@ -74,9 +74,9 @@ app.get('/', async (req, res) => {
             const courses = coupons[index];
 
             // Add the course details and separator
-            responseText += `Title: ${title}\n` +
-                            `Courses: ${courses}\n` +
-                            `By Getbenefits\n` +
+            responseText += `title: ${title}\n` +
+                            `courses: ${courses}\n` +
+                            `by Getbenefits\n` +
                             '---------------------------------------\n';
         }
 
@@ -86,6 +86,7 @@ app.get('/', async (req, res) => {
         res.status(500).json({ error: 'An error occurred while fetching coupons.' });
     }
 });
+
 
 
 
