@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const NodeCache = require('node-cache');
 const app = express();
 
-// Create a cache with a 10-minute expiration time
+// Create a cache with a 10-minute expiration times
 const cache = new NodeCache({ stdTTL: 600 });
 
 async function fetchCoupons() {
