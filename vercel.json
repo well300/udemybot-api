@@ -1,7 +1,17 @@
 {
   "version": 2,
-  "builds": [{ "src": "main.js", "use": "@vercel/node" }],
+  "name": "ub-api",
+  "builds": [
+    {
+      "src": "main.js",
+      "use": "@vercel/node@1.11.0"
+    }
+  ],
   "routes": [
+    {
+      "src": "/",
+      "dest": "main.js"
+    },
     {
       "src": "/(.*)",
       "dest": "main.js"
