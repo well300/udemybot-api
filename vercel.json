@@ -16,5 +16,11 @@
       "src": "/(.*)",
       "dest": "main.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/*": {
+      "memory": 512,  
+      "maxDuration": 30
+    }
+  }
 }
