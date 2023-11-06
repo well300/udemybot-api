@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "name": "ub-api",
+  "name": "udemybot-api",
   "builds": [
     {
       "src": "main.js",
