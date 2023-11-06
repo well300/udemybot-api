@@ -1,26 +1,10 @@
 {
   "version": 2,
-  "name": "ub-api",
-  "builds": [
-    {
-      "src": "main.js",
-      "use": "@vercel/node@1.11.0"
-    }
-  ],
+  "builds": [{ "src": "main.js", "use": "@vercel/node" }],
   "routes": [
-    {
-      "src": "/",
-      "dest": "main.js"
-    },
     {
       "src": "/(.*)",
       "dest": "main.js"
     }
-  ],
-  "functions": {
-    "api/*": {
-      "memory": 512,  
-      "maxDuration": 30
-    }
-  }
+  ]
 }
