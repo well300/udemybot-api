@@ -67,16 +67,27 @@ function fetchCoupons() {
 app.get('/fetch-coupons', async (req, res) => {
     try {
         const { coupons, titles } = await fetchCoupons();
-        const data = titles.map((title, index) => ({
-            title,
-            courses: coupons[index],  
-            by: 'BY GETBENEFITS'        
-        }));
-        res.json(data);
+        let responseText = '';
+
+        for (let index = 0; index < titles.length; index++) {
+            const title = titles[index];
+            const courses = coupons[index];
+
+            // Add the course details and separator
+            responseText += `title: ${title}\n` +
+                            `courses: ${courses}\n` +
+                            `by Getbenefits\n` +
+                            '---------------------------------------\n';
+        }
+
+        // Send the formatted response
+        res.send(responseText);
     } catch (error) {
         res.status(500).json({ error: 'An error occurred while fetching coupons.' });
     }
 });
+
+
 
 const port = process.env.PORT || 300;
 
