@@ -64,7 +64,7 @@ function fetchCoupons() {
         }
     });
 }
-app.get('/fetch-coupons', async (req, res) => {
+app.get('/', async (req, res) => {
     try {
         const { coupons, titles } = await fetchCoupons();
         let responseText = '';
@@ -74,9 +74,9 @@ app.get('/fetch-coupons', async (req, res) => {
             const courses = coupons[index];
 
             // Add the course details and separator
-            responseText += `title: ${title}\n` +
-                            `courses: ${courses}\n` +
-                            `by Getbenefits\n` +
+            responseText += `Title: ${title}\n` +
+                            `Courses: ${courses}\n` +
+                            `By Getbenefits\n` +
                             '---------------------------------------\n';
         }
 
