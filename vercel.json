@@ -16,5 +16,12 @@
       "src": "/(.*)",
       "dest": "main.js"
     }
-  ]
+  ],
+  "functions": {
+    "api/*": {
+      "runtime": "@vercel/node@1.11.0",
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
