@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const NodeCache = require('node-cache');
 const app = express();
 
-// Create a cache with a 10-minute expiration times
+// Create a cache with a 10-minute expiration time
 const cache = new NodeCache({ stdTTL: 600 });
 
 async function fetchCoupons() {
@@ -73,16 +73,40 @@ async function fetchCoupons() {
 app.get('/', async (req, res) => {
     try {
         const courses = await fetchCoupons();
-        let responseText = '';
 
-        for (const course of courses) {
-            responseText += `title: ${course.title}\n` +
-                            `courses: ${course.coupon}\n` +
-                            'by Getbenefits\n' +
-                            '---------------------------------------\n';
+        // Set the response content type based on the requested format
+        const contentType = req.accepts(['json', 'xml', 'yaml', 'text', 'csv']);
+        res.type(contentType);
+
+        // Format the response based on the requested format
+        switch (contentType) {
+            case 'json':
+                res.json(courses);
+                break;
+            case 'xml':
+                // Format courses as XML and send the response
+                const xml = `<courses>${courses.map(course => `<course><title>${course.title}</title><coupon>${course.coupon}</coupon></course>`).join('')}</courses>`;
+                res.send(xml);
+                break;
+            case 'yaml':
+                // Format courses as YAML and send the response
+                const yaml = require('js-yaml').dump(courses);
+                res.send(yaml);
+                break;
+            case 'text':
+                // Format courses as plain text and send the response
+                const text = courses.map(course => `Title: ${course.title}, Coupon: ${course.coupon}`).join('\n') +
+                    '\n©well300 by GetBenefits\n';
+                res.send(text);
+                break;
+            case 'csv':
+                // Format courses as CSV and send the response
+                const csv = courses.map(course => `${course.title},${course.coupon}`).join('\n');
+                res.send(csv);
+                break;
+            default:
+                res.status(406).send('Not Acceptable');
         }
-
-        res.send(responseText);
     } catch (error) {
         console.error('An error occurred while fetching coupons:', error);
         res.status(500).json({ error: 'An error occurred while fetching coupons.' });
