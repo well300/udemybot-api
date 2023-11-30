@@ -137,7 +137,7 @@ app.get("/txt", async (req, res) => {
       )}\n`;
     }
 
-    responseText += "\n©well300 by GetBenefits\n";
+    responseText += "\nMade by well300 From GetBenefits\n";
     res.type("text/plain");
     res.send(responseText);
   } catch (error) {
