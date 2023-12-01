@@ -1,170 +1,178 @@
-<!-- views/index.html -->
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <link rel="icon" type="image/x-icon" href="https://media.tech.lgbt/media_attachments/files/110/548/298/393/119/589/original/dd067553eeda58ab.png">
-    <title>GetBenefits Courses</title>
-    <style>
-      body {
-        font-family: "Arial", sans-serif;
-        background-color: #1a1a1a;
-        color: #fff;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        min-height: 100vh;
-      }
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/x-icon" href="https://media.tech.lgbt/media_attachments/files/110/548/298/393/119/589/original/dd067553eeda58ab.png">
+  <title>GetBenefits Courses</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      background-color: #fff;
+      color: #1a1a1a;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 100vh;
+    }
 
-      header,
-      footer {
-        background-color: #2c3e50;
-        padding: 10px 20px;
-        text-align: center;
-        width: 100%;
-      }
+    header,
+    footer {
+      background-color: #e91e63;
+      padding: 10px 20px;
+      text-align: center;
+      width: 100%;
+      color: #fff;
+    }
 
-      header h1 {
-        font-family: "Verdana", sans-serif;
-        font-weight: bold;
-        font-size: 32px;
-        margin: 0;
-      }
+    header h1 {
+      font-family: "Verdana", sans-serif;
+      font-weight: bold;
+      font-size: 32px;
+      margin: 0;
+    }
 
-      #courses-container {
-        text-align: center;
-        max-width: 800px;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: #2c3e50;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-      }
+    #courses-container {
+      text-align: center;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
 
+    .course-card {
+      background-color: #e91e63;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 10px;
+      width: calc(50% - 20px); /* Two cards in one line with some margin */
+      box-sizing: border-box;
+      transition: transform 0.3s ease-in-out;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .course-card:hover {
+      transform: scale(1.05);
+    }
+
+    .course-title {
+      font-size: 20px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .udemy-button {
+      background-color: #fff;
+      color: #e91e63;
+      border: none;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    }
+
+    .udemy-button:hover {
+      background-color: #e91e63;
+      color: #fff;
+    }
+
+    footer p {
+      margin: 10px 0;
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    #loading-message {
+      display: none;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    @media only screen and (max-width: 600px) {
       .course-card {
-        background-color: #34495e;
-        border-radius: 8px;
-        padding: 15px;
-        margin: 10px;
-        width: calc(50% - 20px); /* Two cards in one line with some margin */
-        box-sizing: border-box;
-        transition: transform 0.3s ease-in-out;
+        width: calc(100% - 20px); /* Full width on smaller screens */
       }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>GetBenefits</h1>
+  </header>
 
-      .course-card:hover {
-        transform: scale(1.05);
-      }
+  <div id="courses-container"></div>
+  <div id="loading-message">Loading...</div>
 
-      .course-title {
-        font-size: 20px;
-        font-weight: bold;
-        color: #fff;
-        margin-bottom: 10px;
-      }
+  <footer>
+    <p>
+      Made by 
+      <a href="https://github.com/well300" target="_blank" style="color: #fff;"> well300</a>
+      From &copy;GetBenefits
+    </p>
+  </footer>
 
-      .udemy-button {
-        background-color: #e74c3c;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-        transition: background-color 0.3s ease-in-out;
-      }
+  <script>
+    // Display loading message
+    document.getElementById("loading-message").style.display = "block";
 
-      .udemy-button:hover {
-        background-color: #c0392b;
-      }
+    // Fetch courses from the server
+    fetch("/json")
+      .then((response) => response.json())
+      .then((courses) => {
+        // Hide loading message
+        document.getElementById("loading-message").style.display = "none";
 
-      footer p {
-        margin: 10px 0;
-      }
+        const coursesContainer = document.getElementById("courses-container");
 
-      footer a {
-        color: #fff;
-        text-decoration: none;
-      }
+        courses.forEach((course) => {
+          // Create a card for each course
+          const card = document.createElement("div");
+          card.classList.add("course-card");
 
-      footer a:hover {
-        text-decoration: underline;
-      }
+          // Display the course title
+          const title = document.createElement("div");
+          title.classList.add("course-title");
+          title.textContent = course.title;
 
-      #loading-message {
-        display: none;
-        font-size: 20px;
-        margin-top: 20px;
-      }
-    </style>
-  </head>
-  <body>
-    <header>
-      <h1>GetBenefits</h1>
-    </header>
-
-    <div id="courses-container"></div>
-    <div id="loading-message">Loading...</div>
-
-    <footer>
-      <p>
-        Made by 
-        <a href="https://github.com/well300" target="_blank"> well300</a>
-        From &copy;GetBenefits
-      </p>
-    </footer>
-
-    <script>
-      // Display loading message
-      document.getElementById("loading-message").style.display = "block";
-
-      // Fetch courses from the server
-      fetch("/json")
-        .then((response) => response.json())
-        .then((courses) => {
-          // Hide loading message
-          document.getElementById("loading-message").style.display = "none";
-
-          const coursesContainer = document.getElementById("courses-container");
-
-          courses.forEach((course) => {
-            // Create a card for each course
-            const card = document.createElement("div");
-            card.classList.add("course-card");
-
-            // Display the course title
-            const title = document.createElement("div");
-            title.classList.add("course-title");
-            title.textContent = course.title;
-
-            // Create a button to redirect to Udemy
-            const udemyButton = document.createElement("button");
-            udemyButton.classList.add("udemy-button");
-            udemyButton.textContent = "View on Udemy";
-            udemyButton.addEventListener("click", () => {
-              // Redirect to Udemy when the button is clicked
-              window.location.href = course.coupon;
-            });
-
-            // Append elements to the card
-            card.appendChild(title);
-            card.appendChild(udemyButton);
-
-            // Append the card to the courses container
-            coursesContainer.appendChild(card);
+          // Create a button to redirect to Udemy
+          const udemyButton = document.createElement("button");
+          udemyButton.classList.add("udemy-button");
+          udemyButton.textContent = "View on Udemy";
+          udemyButton.addEventListener("click", () => {
+            // Redirect to Udemy when the button is clicked
+            window.location.href = course.coupon;
           });
-        })
-        .catch((error) => {
-          // Hide loading message in case of an error
-          document.getElementById("loading-message").style.display = "none";
-          console.error("Error fetching courses:", error);
+
+          // Append elements to the card
+          card.appendChild(title);
+          card.appendChild(udemyButton);
+
+          // Append the card to the courses container
+          coursesContainer.appendChild(card);
         });
-    </script>
-  </body>
+      })
+      .catch((error) => {
+        // Hide loading message in case of an error
+        document.getElementById("loading-message").style.display = "none";
+        console.error("Error fetching courses:", error);
+      });
+  </script>
+</body>
 </html>
